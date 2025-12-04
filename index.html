@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مخزن كلمات السر الآمن</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- شاشة التسجيل -->
+        <div id="registerScreen" class="screen active">
+            <div class="header">
+                <h1><i class="fas fa-lock"></i> مخزن كلمات السر الآمن</h1>
+                <p class="subtitle">حافظ على كلمات سرك بأمان تام</p>
+            </div>
+            
+            <form id="registerForm" class="form">
+                <h2>تسجيل حساب جديد</h2>
+                
+                <div class="input-group">
+                    <label for="userName"><i class="fas fa-user"></i> الاسم الكامل</label>
+                    <input type="text" id="userName" required placeholder="أدخل اسمك الكامل">
+                </div>
+                
+                <div class="input-group">
+                    <label for="userEmail"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                    <input type="email" id="userEmail" required placeholder="example@email.com">
+                </div>
+                
+                <div class="input-group">
+                    <label for="userPhone"><i class="fas fa-phone"></i> رقم الجوال</label>
+                    <input type="tel" id="userPhone" required placeholder="771234567">
+                </div>
+                
+                <div class="input-group">
+                    <label for="masterPassword"><i class="fas fa-key"></i> كلمة السر الرئيسية (PIN)</label>
+                    <input type="password" id="masterPassword" required minlength="6" placeholder="6 أرقام على الأقل">
+                </div>
+                
+                <div class="input-group">
+                    <label for="confirmPassword"><i class="fas fa-key"></i> تأكيد كلمة السر</label>
+                    <input type="password" id="confirmPassword" required placeholder="أعد إدخال كلمة السر">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> إنشاء حساب
+                </button>
+                
+                <p class="form-footer">
+                    لديك حساب بالفعل؟ <a href="#" id="showLogin">سجل دخول</a>
+                </p>
+            </form>
+            
+            <div class="info-box">
+                <h3><i class="fas fa-shield-alt"></i> ميزات التطبيق:</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> تخزين آمن لكلمات السر</li>
+                    <li><i class="fas fa-check-circle"></i> توليد كلمات سر قوية</li>
+                    <li><i class="fas fa-check-circle"></i> حماية ببياناتك الشخصية</li>
+                    <li><i class="fas fa-check-circle"></i> عمل بدون إنترنت</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- شاشة تسجيل الدخول -->
+        <div id="loginScreen" class="screen">
+            <div class="header">
+                <h1><i class="fas fa-lock"></i> تسجيل الدخول</h1>
+            </div>
+            
+            <form id="loginForm" class="form">
+                <h2>أدخل بيانات الدخول</h2>
+                
+                <div class="input-group">
+                    <label for="loginEmail"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                    <input type="email" id="loginEmail" required placeholder="أدخل بريدك الإلكتروني">
+                </div>
+                
+                <div class="input-group">
+                    <label for="loginPassword"><i class="fas fa-key"></i> كلمة السر الرئيسية</label>
+                    <input type="password" id="loginPassword" required placeholder="أدخل كلمة السر">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                </button>
+                
+                <button type="button" id="forgotPassword" class="btn btn-secondary">
+                    <i class="fas fa-question-circle"></i> نسيت كلمة السر؟
+                </button>
+                
+                <p class="form-footer">
+                    جديد هنا؟ <a href="#" id="showRegister">إنشاء حساب</a>
+                </p>
+            </form>
+            
+            <!-- زر المطور المخفي -->
+            <div class="developer-secret" id="secretButton">
+                <i class="fas fa-cog"></i>
+            </div>
+        </div>
+        
+        <!-- لوحة التحكم الرئيسية -->
+        <div id="dashboardScreen" class="screen">
+            <div class="dashboard-header">
+                <div class="user-info">
+                    <h2><i class="fas fa-user-circle"></i> مرحباً، <span id="currentUserName"></span></h2>
+                    <p class="user-email" id="currentUserEmail"></p>
+                </div>
+                <button id="logoutBtn" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> خروج
+                </button>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>كلمات السر</h3>
+                        <p id="passwordCount">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>الحالة</h3>
+                        <p id="subscriptionStatus">مجاني</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="addPasswordBtn" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> إضافة كلمة سر
+                </button>
+                
+                <button id="generatePasswordBtn" class="btn btn-secondary">
+                    <i class="fas fa-key"></i> توليد كلمة سر
+                </button>
+                
+                <button id="viewPasswordsBtn" class="btn btn-info">
+                    <i class="fas fa-eye"></i> عرض الكلمات
+                </button>
+            </div>
+            
+            <!-- قائمة كلمات السر -->
+            <div class="passwords-list" id="passwordsList">
+                <h3><i class="fas fa-list"></i> كلمات السر المحفوظة</h3>
+                <div id="passwordsContainer"></div>
+            </div>
+            
+            <!-- تنبيه الاشتراك -->
+            <div id="subscriptionAlert" class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>لقد وصلت للحد المسموح (20 كلمة سر). لمواصلة الاستخدام، يرجى الاشتراك.</p>
+                <button id="subscribeBtn" class="btn btn-success">الاشتراك الآن</button>
+            </div>
+        </div>
+        
+        <!-- نافذة إضافة كلمة سر -->
+        <div id="addPasswordModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-plus-circle"></i> إضافة كلمة سر جديدة</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="passwordForm">
+                        <div class="input-group">
+                            <label for="platformName"><i class="fas fa-globe"></i> اسم المنصة</label>
+                            <input type="text" id="platformName" required placeholder="مثال: فيسبوك، جيميل">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="accountName"><i class="fas fa-user-tie"></i> اسم الحساب</label>
+                            <input type="text" id="accountName" required placeholder="اسم المستخدم أو البريد">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="passwordValue"><i class="fas fa-lock"></i> كلمة السر</label>
+                            <div class="password-input-group">
+                                <input type="text" id="passwordValue" required placeholder="أدخل كلمة السر">
+                                <button type="button" id="togglePassword" class="btn-eye">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> حفظ
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- نافذة توليد كلمة سر -->
+        <div id="generatePasswordModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-key"></i> توليد كلمة سر قوية</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="password-generator">
+                        <div class="input-group">
+                            <label>طول كلمة السر: <span id="lengthValue">12</span></label>
+                            <input type="range" id="passwordLength" min="8" max="32" value="12">
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="includeUppercase" checked>
+                                <i class="fas fa-font"></i> أحرف كبيرة (A-Z)
+                            </label>
+                            <label>
+                                <input type="checkbox" id="includeLowercase" checked>
+                                <i class="fas fa-font"></i> أحرف صغيرة (a-z)
+                            </label>
+                            <label>
+                                <input type="checkbox" id="includeNumbers" checked>
+                                <i class="fas fa-hashtag"></i> أرقام (0-9)
+                            </label>
+                            <label>
+                                <input type="checkbox" id="includeSymbols" checked>
+                                <i class="fas fa-asterisk"></i> رموز (!@#$%)
+                            </label>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>كلمة السر المولدة:</label>
+                            <div class="password-display">
+                                <input type="text" id="generatedPassword" readonly>
+                                <button type="button" id="copyPassword" class="btn-copy">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button id="generateBtn" class="btn btn-primary">
+                            <i class="fas fa-sync-alt"></i> توليد جديد
+                        </button>
+                        
+                        <button id="usePasswordBtn" class="btn btn-success">
+                            <i class="fas fa-check"></i> استخدام هذه الكلمة
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- لوحة تحكم المطور -->
+        <div id="developerPanel" class="modal">
+            <div class="modal-content developer-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-user-secret"></i> لوحة تحكم المطور</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <!-- تسجيل دخول المطور -->
+                    <div id="developerLogin">
+                        <h4>تسجيل دخول المطور</h4>
+                        <div class="input-group">
+                            <label><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                            <input type="email" id="devEmail" placeholder="labibradaan@gmail.com">
+                        </div>
+                        <div class="input-group">
+                            <label><i class="fas fa-key"></i> كلمة السر</label>
+                            <input type="password" id="devPassword" placeholder="أدخل كلمة السر">
+                        </div>
+                        <button id="devLoginBtn" class="btn btn-danger">
+                            <i class="fas fa-sign-in-alt"></i> دخول المطور
+                        </button>
+                    </div>
+                    
+                    <!-- لوحة التحكم بعد الدخول -->
+                    <div id="developerDashboard" style="display: none;">
+                        <h4>لوحة التحكم الشاملة</h4>
+                        <div class="developer-stats">
+                            <div class="stat-card">
+                                <h5>إجمالي المستخدمين</h5>
+                                <p id="totalUsers">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <h5>المستخدمين النشطين</h5>
+                                <p id="activeUsers">0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="users-list">
+                            <h5>قائمة المستخدمين</h5>
+                            <div id="usersContainer"></div>
+                        </div>
+                        
+                        <div class="developer-actions">
+                            <button id="exportDataBtn" class="btn btn-primary">
+                                <i class="fas fa-download"></i> تصدير البيانات
+                            </button>
+                            <button id="sendToBotBtn" class="btn btn-success">
+                                <i class="fab fa-telegram"></i> إرسال للبوت
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- نافذة الاشتراك -->
+        <div id="subscriptionModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-crown"></i> الاشتراك المميز</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="subscription-plan">
+                        <h4>الخطة المميزة</h4>
+                        <p class="price">1,000 ريال يمني</p>
+                        <ul class="features">
+                            <li><i class="fas fa-check"></i> عدد غير محدود من كلمات السر</li>
+                            <li><i class="fas fa-check"></i> دعم فوري</li>
+                            <li><i class="fas fa-check"></i> نسخ احتياطي آمن</li>
+                            <li><i class="fas fa-check"></i> مميزات متقدمة</li>
+                        </ul>
+                        
+                        <div class="input-group">
+                            <label>الكود الخاص بك:</label>
+                            <div class="code-display">
+                                <input type="text" id="userCode" readonly>
+                                <button type="button" id="copyCode" class="btn-copy">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <p class="instructions">
+                            <i class="fas fa-info-circle"></i> انسخ الكود أعلاه وأرسله للدعم على الواتساب أو التلجرام مع المعرف التالي:
+                            <br><strong id="userIdDisplay"></strong>
+                        </p>
+                        
+                        <div class="contact-info">
+                            <button id="whatsappBtn" class="btn btn-success">
+                                <i class="fab fa-whatsapp"></i> واتساب: 771172888
+                            </button>
+                            <button id="telegramBtn" class="btn btn-info">
+                                <i class="fab fa-telegram"></i> تلجرام: @labibradaan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- شاشة OTP -->
+        <div id="otpScreen" class="modal">
+            <div class="modal-content otp-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-shield-alt"></i> التحقق من الهوية</h3>
+                </div>
+                <div class="modal-body">
+                    <p>تم إرسال رمز التحقق إلى بريدك الإلكتروني وبوت التلجرام.</p>
+                    <div class="input-group">
+                        <label>رمز التحقق (OTP):</label>
+                        <input type="text" id="otpCode" maxlength="6" placeholder="أدخل الرمز المكون من 6 أرقام">
+                    </div>
+                    <button id="verifyOtpBtn" class="btn btn-primary">تحقق</button>
+                    <button id="resendOtpBtn" class="btn btn-secondary">إعادة إرسال الرمز</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- معلومات المطور -->
+        <footer class="developer-footer">
+            <p>
+                <i class="fas fa-code"></i> تم التطوير بواسطة: 
+                <strong>لبيب رعدان</strong>
+            </p>
+            <p>
+                <i class="fas fa-phone"></i> 771172888 | 
+                <i class="fas fa-envelope"></i> labibradaan@gmail.com
+            </p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
